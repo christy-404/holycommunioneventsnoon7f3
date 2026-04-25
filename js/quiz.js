@@ -323,11 +323,25 @@
       submittedAt: Date.now()
     };
 
-    await saveEntry(entry);
-    markPlayed(playerName);
+    let board = [];
+    try {
+      // Save with timeout so Firebase can never freeze the quiz
+      await Promise.race([
+        saveEntry(entry),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('save timeout')), 8000))
+      ]);
+      markPlayed(playerName);
 
-    const all = await fetchAllEntries();
-    const board = sortEntries(all);
+      const all = await Promise.race([
+        fetchAllEntries(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('fetch timeout')), 8000))
+      ]);
+      board = sortEntries(all);
+    } catch (e) {
+      console.error('Firebase error in finishQuiz:', e);
+      // Still mark as played locally so they don't get stuck in a loop
+      markPlayed(playerName);
+    }
 
     showResults(entry, percentage, board);
   }

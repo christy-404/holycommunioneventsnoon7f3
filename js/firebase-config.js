@@ -1,14 +1,15 @@
 /**
  * Firebase Configuration
- * PASTE YOUR FIREBASE CONFIG OBJECT BELOW (from Firebase Console)
+ * Real project config for emmanualholycommunion
  */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyD8vHet_aNoSVQvH0LZvde4yz_sxJHqppA",
+  authDomain: "emmanualholycommunion.firebaseapp.com",
+  projectId: "emmanualholycommunion",
+  storageBucket: "emmanualholycommunion.firebasestorage.app",
+  messagingSenderId: "780599752949",
+  appId: "1:780599752949:web:b78e08d031f005d01b6dbc",
+  measurementId: "G-M9HSFKYE6P"
 };
 
 // Initialize Firebase

@@ -105,16 +105,34 @@
   }
 
   // ---- Real-time Firestore listener ----
-  if (typeof db !== 'undefined') {
+  if (typeof db !== 'undefined' && db) {
     db.collection('quizEntries').onSnapshot((snap) => {
       const entries = snap.docs.map(d => d.data());
       const board = sortEntries(entries);
       renderLeaderboard(board);
     }, (err) => {
       console.error('Leaderboard snapshot error:', err);
+      if (leaderboardEmpty) {
+        leaderboardEmpty.style.display = 'block';
+        const title = leaderboardEmpty.querySelector('.empty-title');
+        const msg = leaderboardEmpty.querySelector('.empty-message');
+        if (title) title.textContent = 'Connection Error';
+        if (msg) msg.textContent = 'Unable to load leaderboard. Check your internet connection and refresh.';
+      }
+      if (leaderboardList) leaderboardList.style.display = 'none';
+      if (leaderboardStats) leaderboardStats.style.display = 'none';
     });
   } else {
     console.error('Firebase db not initialized. Make sure firebase-config.js is loaded.');
+    if (leaderboardEmpty) {
+      leaderboardEmpty.style.display = 'block';
+      const title = leaderboardEmpty.querySelector('.empty-title');
+      const msg = leaderboardEmpty.querySelector('.empty-message');
+      if (title) title.textContent = 'Firebase Not Connected';
+      if (msg) msg.textContent = 'Leaderboard is unavailable right now. Please try again later.';
+    }
+    if (leaderboardList) leaderboardList.style.display = 'none';
+    if (leaderboardStats) leaderboardStats.style.display = 'none';
   }
 })();
 
